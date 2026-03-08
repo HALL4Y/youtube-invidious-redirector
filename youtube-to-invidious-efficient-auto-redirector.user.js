@@ -24,8 +24,8 @@
 // ==/UserScript==
 
 /*
- * Version: 2.5.0
- * Modifie: 2026-03-08 07:30:00
+ * Version: 2.6.0
+ * Modifie: 2026-03-08 07:45:00
  * Role: Redirect YouTube watch URLs to Invidious and provide a floating selector UI.
  * Inputs: Current page URL, userscript storage values, user clicks, configured Invidious instance URLs.
  * Outputs: Browser redirects, DOM UI, persisted preferences in userscript storage.
