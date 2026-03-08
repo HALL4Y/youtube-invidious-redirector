@@ -226,7 +226,21 @@
 
         console.log(`Redirection vers: ${invidiousURL}`);
         isProcessingRedirection = true;
-        window.location.replace(invidiousURL);
+
+        // Stop YouTube page loading to prevent navigation interception
+        window.stop();
+
+        // Multiple fallback strategies for redirect
+        try {
+            window.location.replace(invidiousURL);
+        } catch (_e) {
+            window.location.href = invidiousURL;
+        }
+
+        // Last resort if replace/href were intercepted
+        setTimeout(() => {
+            window.location.href = invidiousURL;
+        }, 100);
         return true;
     }
 
