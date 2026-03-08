@@ -845,32 +845,65 @@
         updateIconHalo();
     }
 
+    function tryRedirect() {
+        if (isProcessingRedirection || !redirectionEnabled) return;
+
+        const defaultInstance = getDefaultInstance();
+        if (!defaultInstance || defaultInstance === 'none') return;
+
+        const params = extractAllParams(window.location.href);
+        if (params && params.v) {
+            redirectToInvidious(defaultInstance, params);
+        }
+    }
+
     function main() {
         const hostname = window.location.hostname;
-        const currentURL = window.location.href;
         const isOnYouTube = isYouTubeHost(hostname);
         const isOnInvidious = isKnownInvidiousHost(hostname);
 
         if (isOnYouTube) {
-            const defaultInstance = getDefaultInstance();
-
             setTimeout(() => {
                 createFloatingIcon();
             }, CONFIG.showIconDelay);
 
-            if (defaultInstance && defaultInstance !== 'none' && redirectionEnabled && !isProcessingRedirection) {
-                const params = extractAllParams(currentURL);
-                if (params && params.v) {
-                    setTimeout(() => {
-                        redirectToInvidious(defaultInstance, params);
-                    }, 1500);
-                    return;
-                }
-            }
+            setTimeout(() => {
+                tryRedirect();
+            }, 1500);
 
             setTimeout(() => {
                 createInterface();
             }, 2000);
+
+            // YouTube SPA navigation: detect URL changes when clicking videos
+            document.addEventListener('yt-navigate-finish', () => {
+                isProcessingRedirection = false;
+                tryRedirect();
+            });
+
+            // Fallback: intercept pushState/replaceState for robustness
+            const originalPushState = history.pushState;
+            history.pushState = function() {
+                originalPushState.apply(this, arguments);
+                setTimeout(() => {
+                    isProcessingRedirection = false;
+                    tryRedirect();
+                }, 500);
+            };
+
+            const originalReplaceState = history.replaceState;
+            history.replaceState = function() {
+                originalReplaceState.apply(this, arguments);
+                setTimeout(() => {
+                    isProcessingRedirection = false;
+                    tryRedirect();
+                }, 500);
+            };
+
+            window.addEventListener('popstate', () => {
+                isProcessingRedirection = false;
+                tryRedirect();
+            });
         } else if (isOnInvidious) {
             setTimeout(() => {
                 createFloatingIcon();
