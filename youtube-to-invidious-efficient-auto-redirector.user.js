@@ -14,7 +14,7 @@
 // @match        *://youtube.com/*
 // @match        *://inv.nadeko.net/*
 // @match        *://yewtu.be/*
-// @match        *://invidious.nerdvpn.de/*
+// @match        *://invidious.tiekoetter.com/*
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
 // @grant        GM_getValue
