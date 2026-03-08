@@ -1,65 +1,83 @@
-# YouTube Invidious Redirector
+<h1 align="center">YouTube Invidious Redirector</h1>
 
-Userscript to redirect YouTube video pages to an Invidious instance and manage preferred instances from a floating UI.
+<p align="center">
+  <a href="https://raw.githubusercontent.com/HALL4Y/youtube-invidious-redirector/main/youtube-to-invidious-efficient-auto-redirector.user.js"><img src="https://img.shields.io/badge/Install-Userscript-brightgreen?style=for-the-badge&logo=tampermonkey" alt="Install"></a>
+</p>
 
-## Why this exists
+<p align="center">
+  <img src="https://img.shields.io/github/v/release/HALL4Y/youtube-invidious-redirector?label=version&style=flat-square" alt="Version">
+  <img src="https://img.shields.io/github/license/HALL4Y/youtube-invidious-redirector?style=flat-square" alt="License">
+  <img src="https://img.shields.io/badge/platform-Firefox%20%7C%20Chrome-blue?style=flat-square" alt="Platform">
+</p>
 
-- keep a simple redirect flow from YouTube to Invidious
-- choose a default Invidious instance from the page itself
-- add custom instances without editing the code
-- return to YouTube from a supported Invidious instance
+<p align="center">
+  Automatically redirects YouTube video pages to an <a href="https://invidious.io/">Invidious</a> instance.<br>
+  Manage preferred instances from a floating UI — no code editing required.
+</p>
+
+---
 
 ## Features
 
-- automatic redirect from YouTube watch pages (including SPA navigation)
-- support for `watch` URLs and `shorts`
-- floating draggable icon
-- modal selector with default and custom instances
-- persistent selected instance and icon position
-- one-click return to YouTube on matched Invidious instances
-- intercepts YouTube SPA navigation (`pushState`, `replaceState`, `yt-navigate-finish`)
+- Automatic redirect from YouTube watch pages and `shorts`
+- Handles YouTube SPA navigation (`pushState`, `replaceState`, `yt-navigate-finish`)
+- Floating draggable icon with modal instance selector
+- Add custom Invidious instances from the UI
+- Persistent settings (selected instance, icon position)
+- One-click return to YouTube from supported Invidious hosts
 
 ## Install
 
-1. Install a userscript manager such as [Violentmonkey](https://violentmonkey.github.io/), [Tampermonkey](https://www.tampermonkey.net/) or [Greasemonkey](https://www.greasespot.net/).
-2. Click the link below to install:
+1. Install a userscript manager:
+   [Violentmonkey](https://violentmonkey.github.io/) |
+   [Tampermonkey](https://www.tampermonkey.net/) |
+   [Greasemonkey](https://www.greasespot.net/)
 
-   **[Install userscript](https://raw.githubusercontent.com/HALL4Y/youtube-invidious-redirector/main/youtube-to-invidious-efficient-auto-redirector.user.js)**
+2. **[Click here to install the script](https://raw.githubusercontent.com/HALL4Y/youtube-invidious-redirector/main/youtube-to-invidious-efficient-auto-redirector.user.js)**
 
 3. Confirm installation in your userscript manager.
 
 ## Supported hosts
 
-The script currently runs on:
+| YouTube | Invidious |
+|---------|-----------|
+| `www.youtube.com` | `inv.nadeko.net` |
+| `m.youtube.com` | `yewtu.be` |
+| `youtube.com` | `invidious.tiekoetter.com` |
 
-- `www.youtube.com`
-- `m.youtube.com`
-- `youtube.com`
-- `inv.nadeko.net`
-- `yewtu.be`
-- `invidious.tiekoetter.com`
-
-Custom instances can be selected as redirect targets from YouTube. If you want the floating UI to also run on a custom Invidious host, add that host to the `@match` lines in the script header.
+> You can add custom instances from the floating UI. To also run the UI on a custom host, add it to the `@match` lines in the script header.
 
 ## Changelog
 
-### v2.7.0
-- replaced dead instance `invidious.nerdvpn.de` with `invidious.tiekoetter.com`
+<details>
+<summary><strong>v2.7.0</strong> — Instance list update</summary>
 
-### v2.6.0
+- Replaced dead instance `invidious.nerdvpn.de` with `invidious.tiekoetter.com`
+</details>
+
+<details>
+<summary><strong>v2.6.0</strong> — Redirect reliability</summary>
+
 - `window.stop()` before redirect to prevent YouTube from blocking `window.location.replace()`
-- immediate redirect on page load (removed 1500 ms delay)
-- triple fallback: `replace()` → `href` → delayed `href`
+- Immediate redirect on page load (removed 1500 ms delay)
+- Triple fallback: `replace()` → `href` → delayed `href`
+</details>
 
-### v2.5.0
-- detect YouTube SPA navigation via `yt-navigate-finish` event
-- intercept `history.pushState` and `history.replaceState`
-- listen to `popstate` for back/forward navigation
+<details>
+<summary><strong>v2.5.0</strong> — SPA navigation support</summary>
 
-### v2.4.0 and earlier
-- replaced `innerHTML = ''` with safe DOM clearing to avoid YouTube Trusted Types / CSP failures in Firefox
-- stopped matching broad `*.youtube.com` hosts such as `studio.youtube.com`
-- fixed the delete button handling for non-custom instance rows
+- Detect YouTube SPA navigation via `yt-navigate-finish` event
+- Intercept `history.pushState` and `history.replaceState`
+- Listen to `popstate` for back/forward navigation
+</details>
+
+<details>
+<summary><strong>v2.4.0 and earlier</strong></summary>
+
+- Replaced `innerHTML = ''` with safe DOM clearing (Trusted Types / CSP)
+- Stopped matching broad `*.youtube.com` hosts (e.g. `studio.youtube.com`)
+- Fixed delete button handling for non-custom instance rows
+</details>
 
 ## License
 
