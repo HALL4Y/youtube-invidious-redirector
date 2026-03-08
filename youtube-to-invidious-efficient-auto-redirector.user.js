@@ -43,7 +43,7 @@
         defaultInstances: [
             'https://inv.nadeko.net',
             'https://yewtu.be',
-            'https://invidious.nerdvpn.de'
+            'https://invidious.tiekoetter.com'
         ],
         showIconDelay: 800
     };
