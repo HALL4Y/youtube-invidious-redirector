@@ -2,7 +2,7 @@
 // @name         Youtube Invidious Redirector
 // @name:fr      Redirection YouTube Invidious
 // @namespace    https://github.com/HALL4Y/youtube-invidious-redirector
-// @version      2.6.0
+// @version      2.7.0
 // @description  Redirect YouTube videos to an Invidious instance and manage instances from a floating UI.
 // @license      MPL-2.0
 // @homepageURL  https://github.com/HALL4Y/youtube-invidious-redirector
