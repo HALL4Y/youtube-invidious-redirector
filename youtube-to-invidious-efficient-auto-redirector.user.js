@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Youtube to Invidious Efficient Auto-Redirector
-// @name:fr      Redirection automatique efficace de YouTube vers Invidious
+// @name         Youtube Invidious Redirector
+// @name:fr      Redirection YouTube Invidious
 // @namespace    https://github.com/HALL4Y/youtube-invidious-redirector
-// @version      2.6.0
+// @version      2.5.0
 // @description  Redirect YouTube videos to an Invidious instance and manage instances from a floating UI.
 // @license      MPL-2.0
 // @homepageURL  https://github.com/HALL4Y/youtube-invidious-redirector
@@ -24,8 +24,8 @@
 // ==/UserScript==
 
 /*
- * Version: 2.6.0
- * Modifie: 2026-03-08 07:45:00
+ * Version: 2.5.0
+ * Modifie: 2026-03-08 07:30:00
  * Role: Redirect YouTube watch URLs to Invidious and provide a floating selector UI.
  * Inputs: Current page URL, userscript storage values, user clicks, configured Invidious instance URLs.
  * Outputs: Browser redirects, DOM UI, persisted preferences in userscript storage.
@@ -226,21 +226,7 @@
 
         console.log(`Redirection vers: ${invidiousURL}`);
         isProcessingRedirection = true;
-
-        // Stop YouTube page loading to prevent navigation interception
-        window.stop();
-
-        // Multiple fallback strategies for redirect
-        try {
-            window.location.replace(invidiousURL);
-        } catch (_e) {
-            window.location.href = invidiousURL;
-        }
-
-        // Last resort if replace/href were intercepted
-        setTimeout(() => {
-            window.location.href = invidiousURL;
-        }, 100);
+        window.location.replace(invidiousURL);
         return true;
     }
 
@@ -877,12 +863,13 @@
         const isOnInvidious = isKnownInvidiousHost(hostname);
 
         if (isOnYouTube) {
-            // Redirect ASAP — before YouTube sets up navigation interceptors
-            tryRedirect();
-
             setTimeout(() => {
                 createFloatingIcon();
             }, CONFIG.showIconDelay);
+
+            setTimeout(() => {
+                tryRedirect();
+            }, 1500);
 
             setTimeout(() => {
                 createInterface();
