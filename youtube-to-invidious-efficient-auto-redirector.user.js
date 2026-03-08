@@ -877,13 +877,12 @@
         const isOnInvidious = isKnownInvidiousHost(hostname);
 
         if (isOnYouTube) {
+            // Redirect ASAP — before YouTube sets up navigation interceptors
+            tryRedirect();
+
             setTimeout(() => {
                 createFloatingIcon();
             }, CONFIG.showIconDelay);
-
-            setTimeout(() => {
-                tryRedirect();
-            }, 1500);
 
             setTimeout(() => {
                 createInterface();
